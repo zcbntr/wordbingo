@@ -5,10 +5,15 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { writable, derived } from 'svelte/store';
 
+	import type { PageProps } from './$types';
+
+	let { form }: PageProps = $props();
+
 	const gridWidth = writable(5);
 	const gridHeight = writable(5);
 	const squareGrid = writable(true);
 
+	const widthLabelText = derived(squareGrid, ($squareGrid) => ($squareGrid ? 'Size' : 'Width'));
 	const gridSizeText = derived(
 		[gridWidth, gridHeight],
 		([$gridWidth, $gridHeight]) => `${$gridWidth} x ${$gridHeight}`
@@ -32,9 +37,12 @@
 	<form method="POST" action="?/create" class="flex flex-col items-center gap-4">
 		<Textarea name="wordsList" class="min-h-96 w-full max-w-3xl min-w-xs bg-accent p-2 sm:min-w-md"
 		></Textarea>
+		{#if form?.errors.wordsList}
+			<p class="mt-2 text-sm text-red-600">{form.errors.wordsList}</p>
+		{/if}
 
-		<Label for="size">{$gridSizeText}</Label>
-		<Label for="width">Width</Label>
+		<div>{$gridSizeText}</div>
+		<Label for="width">{$widthLabelText}</Label>
 		<Slider type="single" bind:value={$gridWidth} min={3} max={10} />
 
 		{#if !$squareGrid}
