@@ -1,4 +1,7 @@
 <script lang="ts">
+	import type { PageProps } from './$types';
+
+	let { form }: PageProps = $props();
 </script>
 
 <svelte:head>
@@ -20,17 +23,24 @@
 	<div class="flex flex-col flex-nowrap items-center gap-10">
 		<form method="POST" action="?/join" class="flex flex-col items-center gap-4">
 			<label for="gameCode" class="">Invited to a game?</label>
-			<div class="flex flex-row items-center gap-4 sm:flex-row">
-				<input
-					name="gameCode"
-					type="text"
-					placeholder="Game Code"
-					class="rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-				/>
+			<div>
+				<div class="flex flex-row items-center gap-4 sm:flex-row">
+					<input
+						name="gameCode"
+						type="text"
+						placeholder="Game Code"
+						class="rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+					/>
 
-				<button class="rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700">
-					Join Game
-				</button>
+					<button class="rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700">
+						Join Game
+					</button>
+				</div>
+				{#if form?.errors}
+					<div class="flex flex-row place-content-center">
+						<p class="mt-2 text-sm text-red-600">{form.errors.gameCode}</p>
+					</div>
+				{/if}
 			</div>
 		</form>
 
