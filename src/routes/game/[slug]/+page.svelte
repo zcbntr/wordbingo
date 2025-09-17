@@ -9,4 +9,5 @@
 >
 	<h1 class="mb-6 text-center text-4xl font-bold">Create a New Game</h1>
 	<CreateGameForm {data} />
+	<a href="/" class="text-slate-400">Join a game?</a>
 </main>

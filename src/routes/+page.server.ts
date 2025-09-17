@@ -1,9 +1,18 @@
 import { redirect } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
 import { init } from '@paralleldrive/cuid2';
+import { superValidate } from 'sveltekit-superforms';
+import { zod } from 'sveltekit-superforms/adapters';
+import { formSchema } from './schema';
 
 const nanoid = init({ length: 6 });
+
+export const load: PageServerLoad = async () => {
+	return {
+		form: await superValidate(zod(formSchema))
+	};
+};
 
 export const actions: Actions = {
 	new: async () => {
